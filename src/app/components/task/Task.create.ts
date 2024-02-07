@@ -1,5 +1,4 @@
-export interface Task {
-  id: string;
+export interface TaskCreate {
   text: string;
   day: string;
   reminder: boolean;

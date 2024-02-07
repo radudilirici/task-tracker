@@ -1,14 +1,33 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
+import { UiService } from "../../services/ui.service";
+import { Subscription } from "rxjs";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrl: "./header.component.css",
 })
 export class HeaderComponent {
-  title = 'Task Tracker';
+  title = "Task Tracker";
 
-  toggleAddTask() {
-    console.log('toggle');
+  showAddTask: boolean = false;
+  subscription: Subscription;
+
+  constructor(
+    private uiService: UiService,
+    private router: Router,
+  ) {
+    this.subscription = this.uiService
+      .onToggle()
+      .subscribe((_showAddTask) => (this.showAddTask = _showAddTask));
+  }
+
+  async toggleAddTask() {
+    this.uiService.toggleAddTask();
+  }
+
+  showButton(): boolean {
+    return this.router.url === "/";
   }
 }
